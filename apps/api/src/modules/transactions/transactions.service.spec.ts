@@ -4,11 +4,16 @@ import { TransactionsService } from './transactions.service';
 import { Transaction, TransactionType } from './entities/transaction.entity';
 
 describe('TransactionsService', () => {
+  const activityLogs = {
+    log: jest.fn().mockResolvedValue(undefined),
+  };
+
   it('rejects a transaction for an account owned by another user', async () => {
     const findOne = jest.fn().mockResolvedValue(null);
     const service = new TransactionsService(
       {} as Repository<Transaction>,
       { findOne } as unknown as Repository<Account>,
+      activityLogs as any,
     );
 
     await expect(
@@ -29,6 +34,7 @@ describe('TransactionsService', () => {
     const service = new TransactionsService(
       { create, save } as unknown as Repository<Transaction>,
       { findOne } as unknown as Repository<Account>,
+      activityLogs as any,
     );
 
     await service.createForUser('user-1', {

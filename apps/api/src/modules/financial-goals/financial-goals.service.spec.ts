@@ -9,10 +9,7 @@ describe('FinancialGoalsService', () => {
   it('stores goals as integer cents and tracks progress', async () => {
     const save = jest.fn().mockImplementation(async (goal: any) => goal);
     const create = jest.fn().mockImplementation((goal: any) => goal);
-    const service = new FinancialGoalsService(
-      { create, save } as any,
-      activityLogs as any,
-    );
+    const service = new FinancialGoalsService({ create, save } as any, activityLogs as any);
 
     await service.createForUser('user-1', {
       name: 'Emergency fund',

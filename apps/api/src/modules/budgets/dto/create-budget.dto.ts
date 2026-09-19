@@ -1,4 +1,4 @@
-import { IsDateString, IsNotEmpty, IsString, IsUUID, Min } from 'class-validator';
+import { IsDateString, IsNotEmpty, IsUUID, Min } from 'class-validator';
 
 export class CreateBudgetDto {
   @IsUUID()

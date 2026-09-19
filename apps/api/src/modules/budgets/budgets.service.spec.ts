@@ -9,10 +9,7 @@ describe('BudgetsService', () => {
   it('stores budget amounts as integer cents', async () => {
     const save = jest.fn().mockImplementation(async (budget: Budget) => budget);
     const create = jest.fn().mockImplementation((budget: Budget) => budget);
-    const service = new BudgetsService(
-      { create, save } as any,
-      activityLogs as any,
-    );
+    const service = new BudgetsService({ create, save } as any, activityLogs as any);
 
     await service.createForUser('user-1', {
       categoryId: 'category-1',

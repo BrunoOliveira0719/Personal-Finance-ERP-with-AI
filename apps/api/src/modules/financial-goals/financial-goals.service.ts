@@ -56,8 +56,12 @@ export class FinancialGoalsService {
 
     Object.assign(goal, {
       ...(dto.name !== undefined ? { name: dto.name } : {}),
-      ...(dto.targetAmountCents !== undefined ? { targetAmountCents: String(dto.targetAmountCents) } : {}),
-      ...(dto.currentAmountCents !== undefined ? { currentAmountCents: String(dto.currentAmountCents) } : {}),
+      ...(dto.targetAmountCents !== undefined
+        ? { targetAmountCents: String(dto.targetAmountCents) }
+        : {}),
+      ...(dto.currentAmountCents !== undefined
+        ? { currentAmountCents: String(dto.currentAmountCents) }
+        : {}),
       ...(dto.targetDate !== undefined ? { targetDate: dto.targetDate ?? null } : {}),
       ...(dto.status !== undefined ? { status: dto.status } : {}),
     });
