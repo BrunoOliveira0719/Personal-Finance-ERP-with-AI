@@ -17,6 +17,7 @@ import { BudgetsModule } from './modules/budgets/budgets.module';
 import { FinancialGoalsModule } from './modules/financial-goals/financial-goals.module';
 import { InvestmentsModule } from './modules/investments/investments.module';
 import { ActivityLogsModule } from './modules/activity-logs/activity-logs.module';
+import { StrategicPlanningModule } from './modules/strategic-planning/strategic-planning.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { ActivityLogsModule } from './modules/activity-logs/activity-logs.module
     FinancialGoalsModule,
     InvestmentsModule,
     ActivityLogsModule,
+    StrategicPlanningModule,
     // Domain modules (auth, accounts, transactions, ...) are registered
     // here incrementally as each implementation phase lands.
   ],
