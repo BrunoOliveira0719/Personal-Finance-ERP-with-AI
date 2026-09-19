@@ -34,4 +34,29 @@ describe('AccountsService', () => {
       }),
     );
   });
+
+  it('updates only owned accounts', async () => {
+    const account = { id: 'account-1', userId: 'user-1', name: 'Old', type: AccountType.CHECKING };
+    const findOne = jest.fn().mockResolvedValue(account);
+    const save = jest.fn().mockImplementation(async (entity) => entity);
+    const service = new AccountsService({ findOne, save } as unknown as Repository<Account>);
+
+    await service.updateForUser('user-1', 'account-1', { name: 'New', type: AccountType.SAVINGS });
+
+    expect(findOne).toHaveBeenCalledWith({ where: { id: 'account-1', userId: 'user-1' } });
+    expect(save).toHaveBeenCalledWith(
+      expect.objectContaining({ name: 'New', type: AccountType.SAVINGS }),
+    );
+  });
+
+  it('deletes only owned accounts', async () => {
+    const findOne = jest.fn().mockResolvedValue({ id: 'account-1', userId: 'user-1' });
+    const remove = jest.fn().mockResolvedValue(undefined);
+    const service = new AccountsService({ findOne, remove } as unknown as Repository<Account>);
+
+    await service.deleteForUser('user-1', 'account-1');
+
+    expect(findOne).toHaveBeenCalledWith({ where: { id: 'account-1', userId: 'user-1' } });
+    expect(remove).toHaveBeenCalledWith({ id: 'account-1', userId: 'user-1' });
+  });
 });

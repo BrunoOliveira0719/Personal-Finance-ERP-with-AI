@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Account } from '../accounts/entities/account.entity';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
+import { UpdateTransactionDto } from './dto/update-transaction.dto';
 import { Transaction, TransactionStatus } from './entities/transaction.entity';
 
 @Injectable()
@@ -21,9 +22,14 @@ export class TransactionsService {
     });
   }
 
-  async createForUser(userId: string, dto: CreateTransactionDto): Promise<Transaction> {
-    const account = await this.accounts.findOne({ where: { id: dto.accountId, userId } });
+  private async validateAccountAccess(userId: string, accountId: string) {
+    const account = await this.accounts.findOne({ where: { id: accountId, userId } });
     if (!account) throw new NotFoundException('Account not found');
+    return account;
+  }
+
+  async createForUser(userId: string, dto: CreateTransactionDto): Promise<Transaction> {
+    await this.validateAccountAccess(userId, dto.accountId);
 
     const transaction = this.transactions.create({
       ...dto,
@@ -36,5 +42,38 @@ export class TransactionsService {
       amountCents: String(dto.amountCents),
     });
     return this.transactions.save(transaction);
+  }
+
+  async updateForUser(
+    userId: string,
+    transactionId: string,
+    dto: UpdateTransactionDto,
+  ): Promise<Transaction> {
+    const transaction = await this.transactions.findOne({ where: { id: transactionId, userId } });
+    if (!transaction) throw new NotFoundException('Transaction not found');
+
+    if (dto.accountId !== undefined) {
+      await this.validateAccountAccess(userId, dto.accountId);
+    }
+
+    Object.assign(transaction, {
+      ...(dto.accountId !== undefined ? { accountId: dto.accountId } : {}),
+      ...(dto.categoryId !== undefined ? { categoryId: dto.categoryId ?? null } : {}),
+      ...(dto.costCenterId !== undefined ? { costCenterId: dto.costCenterId ?? null } : {}),
+      ...(dto.type !== undefined ? { type: dto.type } : {}),
+      ...(dto.amountCents !== undefined ? { amountCents: String(dto.amountCents) } : {}),
+      ...(dto.description !== undefined ? { description: dto.description ?? null } : {}),
+      ...(dto.transactionDate !== undefined ? { transactionDate: dto.transactionDate } : {}),
+      ...(dto.status !== undefined ? { status: dto.status } : {}),
+      ...(dto.transferPairId !== undefined ? { transferPairId: dto.transferPairId ?? null } : {}),
+    });
+
+    return this.transactions.save(transaction);
+  }
+
+  async deleteForUser(userId: string, transactionId: string): Promise<void> {
+    const transaction = await this.transactions.findOne({ where: { id: transactionId, userId } });
+    if (!transaction) throw new NotFoundException('Transaction not found');
+    await this.transactions.remove(transaction);
   }
 }

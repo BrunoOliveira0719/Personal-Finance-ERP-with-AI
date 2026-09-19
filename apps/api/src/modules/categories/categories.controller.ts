@@ -1,7 +1,18 @@
-import { Body, Controller, Get, Post, Req } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  Patch,
+  Post,
+  Req,
+} from '@nestjs/common';
 import { AuthenticatedRequest } from '../auth/session-auth.guard';
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
+import { UpdateCategoryDto } from './dto/update-category.dto';
 @Controller('categories')
 export class CategoriesController {
   constructor(private readonly service: CategoriesService) {}
@@ -10,5 +21,15 @@ export class CategoriesController {
   }
   @Post() create(@Req() req: AuthenticatedRequest, @Body() dto: CreateCategoryDto) {
     return this.service.createForUser(req.user.id, dto);
+  }
+  @Patch(':id') update(
+    @Req() req: AuthenticatedRequest,
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() dto: UpdateCategoryDto,
+  ) {
+    return this.service.updateForUser(req.user.id, id, dto);
+  }
+  @Delete(':id') remove(@Req() req: AuthenticatedRequest, @Param('id', ParseUUIDPipe) id: string) {
+    return this.service.deleteForUser(req.user.id, id);
   }
 }
