@@ -7,6 +7,8 @@ import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { HealthModule } from './modules/health/health.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { SessionAuthGuard } from './modules/auth/session-auth.guard';
+import { AccountsModule } from './modules/accounts/accounts.module';
+import { TransactionsModule } from './modules/transactions/transactions.module';
 
 @Module({
   imports: [
@@ -22,6 +24,8 @@ import { SessionAuthGuard } from './modules/auth/session-auth.guard';
     ]),
     HealthModule,
     AuthModule,
+    AccountsModule,
+    TransactionsModule,
     // Domain modules (auth, accounts, transactions, ...) are registered
     // here incrementally as each implementation phase lands.
   ],
