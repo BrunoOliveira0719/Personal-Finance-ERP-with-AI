@@ -34,7 +34,11 @@ export class StrategicObjective {
   @Column({ type: 'enum', enum: ObjectivePerspective }) perspective!: ObjectivePerspective;
   @Column({ type: 'bigint', nullable: true }) targetValueCents!: string | null;
   @Column({ type: 'date', nullable: true }) targetDate!: string | null;
-  @Column({ type: 'enum', enum: StrategicObjectiveStatus, default: StrategicObjectiveStatus.ACTIVE })
+  @Column({
+    type: 'enum',
+    enum: StrategicObjectiveStatus,
+    default: StrategicObjectiveStatus.ACTIVE,
+  })
   status!: StrategicObjectiveStatus;
   @CreateDateColumn({ type: 'timestamptz' }) createdAt!: Date;
   @UpdateDateColumn({ type: 'timestamptz' }) updatedAt!: Date;

@@ -66,9 +66,15 @@ export class CreateStrategicPlanning1710000005000 implements MigrationInterface 
         CONSTRAINT "FK_tactical_actions_objective" FOREIGN KEY ("objectiveId") REFERENCES "strategic_objectives"("id") ON DELETE CASCADE
       )
     `);
-    await queryRunner.query('CREATE INDEX "IDX_strategic_plans_user" ON "strategic_plans" ("userId")');
-    await queryRunner.query('CREATE INDEX "IDX_strategic_objectives_user_plan" ON "strategic_objectives" ("userId", "planId")');
-    await queryRunner.query('CREATE INDEX "IDX_tactical_actions_user_objective" ON "tactical_actions" ("userId", "objectiveId")');
+    await queryRunner.query(
+      'CREATE INDEX "IDX_strategic_plans_user" ON "strategic_plans" ("userId")',
+    );
+    await queryRunner.query(
+      'CREATE INDEX "IDX_strategic_objectives_user_plan" ON "strategic_objectives" ("userId", "planId")',
+    );
+    await queryRunner.query(
+      'CREATE INDEX "IDX_tactical_actions_user_objective" ON "tactical_actions" ("userId", "objectiveId")',
+    );
   }
 
   async down(queryRunner: QueryRunner): Promise<void> {

@@ -1,5 +1,16 @@
-import { IsDateString, IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID, Min } from 'class-validator';
-import { ObjectivePerspective, StrategicObjectiveStatus } from '../entities/strategic-objective.entity';
+import {
+  IsDateString,
+  IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsUUID,
+  Min,
+} from 'class-validator';
+import {
+  ObjectivePerspective,
+  StrategicObjectiveStatus,
+} from '../entities/strategic-objective.entity';
 
 export class CreateStrategicObjectiveDto {
   @IsUUID() planId!: string;

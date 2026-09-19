@@ -40,11 +40,22 @@ export class StrategicPlanningService {
         status: dto.status ?? StrategicPlanStatus.ACTIVE,
       }),
     );
-    await this.log(userId, 'strategicPlan', plan.id, 'CREATE', plan.name, `Created plan ${plan.name}`);
+    await this.log(
+      userId,
+      'strategicPlan',
+      plan.id,
+      'CREATE',
+      plan.name,
+      `Created plan ${plan.name}`,
+    );
     return plan;
   }
 
-  async updatePlan(userId: string, id: string, dto: UpdateStrategicPlanDto): Promise<StrategicPlan> {
+  async updatePlan(
+    userId: string,
+    id: string,
+    dto: UpdateStrategicPlanDto,
+  ): Promise<StrategicPlan> {
     const plan = await this.getPlan(userId, id);
     Object.assign(plan, {
       ...(dto.name !== undefined ? { name: dto.name } : {}),
@@ -54,7 +65,14 @@ export class StrategicPlanningService {
       ...(dto.status !== undefined ? { status: dto.status } : {}),
     });
     const updated = await this.plans.save(plan);
-    await this.log(userId, 'strategicPlan', updated.id, 'UPDATE', updated.name, `Updated plan ${updated.name}`);
+    await this.log(
+      userId,
+      'strategicPlan',
+      updated.id,
+      'UPDATE',
+      updated.name,
+      `Updated plan ${updated.name}`,
+    );
     return updated;
   }
 
@@ -71,7 +89,10 @@ export class StrategicPlanningService {
     });
   }
 
-  async createObjective(userId: string, dto: CreateStrategicObjectiveDto): Promise<StrategicObjective> {
+  async createObjective(
+    userId: string,
+    dto: CreateStrategicObjectiveDto,
+  ): Promise<StrategicObjective> {
     await this.getPlan(userId, dto.planId);
     const objective = await this.objectives.save(
       this.objectives.create({
@@ -85,11 +106,22 @@ export class StrategicPlanningService {
         status: dto.status ?? StrategicObjectiveStatus.ACTIVE,
       }),
     );
-    await this.log(userId, 'strategicObjective', objective.id, 'CREATE', objective.title, `Created objective ${objective.title}`);
+    await this.log(
+      userId,
+      'strategicObjective',
+      objective.id,
+      'CREATE',
+      objective.title,
+      `Created objective ${objective.title}`,
+    );
     return objective;
   }
 
-  async updateObjective(userId: string, id: string, dto: UpdateStrategicObjectiveDto): Promise<StrategicObjective> {
+  async updateObjective(
+    userId: string,
+    id: string,
+    dto: UpdateStrategicObjectiveDto,
+  ): Promise<StrategicObjective> {
     const objective = await this.getObjective(userId, id);
     if (dto.planId !== undefined) await this.getPlan(userId, dto.planId);
     Object.assign(objective, {
@@ -104,14 +136,28 @@ export class StrategicPlanningService {
       ...(dto.status !== undefined ? { status: dto.status } : {}),
     });
     const updated = await this.objectives.save(objective);
-    await this.log(userId, 'strategicObjective', updated.id, 'UPDATE', updated.title, `Updated objective ${updated.title}`);
+    await this.log(
+      userId,
+      'strategicObjective',
+      updated.id,
+      'UPDATE',
+      updated.title,
+      `Updated objective ${updated.title}`,
+    );
     return updated;
   }
 
   async deleteObjective(userId: string, id: string): Promise<void> {
     const objective = await this.getObjective(userId, id);
     await this.objectives.remove(objective);
-    await this.log(userId, 'strategicObjective', id, 'DELETE', objective.title, `Deleted objective ${objective.title}`);
+    await this.log(
+      userId,
+      'strategicObjective',
+      id,
+      'DELETE',
+      objective.title,
+      `Deleted objective ${objective.title}`,
+    );
   }
 
   listActions(userId: string, objectiveId?: string): Promise<TacticalAction[]> {
@@ -130,15 +176,27 @@ export class StrategicPlanningService {
         title: dto.title,
         description: dto.description ?? null,
         dueDate: dto.dueDate ?? null,
-        estimatedAmountCents: dto.estimatedAmountCents == null ? null : String(dto.estimatedAmountCents),
+        estimatedAmountCents:
+          dto.estimatedAmountCents == null ? null : String(dto.estimatedAmountCents),
         status: dto.status ?? TacticalActionStatus.PLANNED,
       }),
     );
-    await this.log(userId, 'tacticalAction', action.id, 'CREATE', action.title, `Created action ${action.title}`);
+    await this.log(
+      userId,
+      'tacticalAction',
+      action.id,
+      'CREATE',
+      action.title,
+      `Created action ${action.title}`,
+    );
     return action;
   }
 
-  async updateAction(userId: string, id: string, dto: UpdateTacticalActionDto): Promise<TacticalAction> {
+  async updateAction(
+    userId: string,
+    id: string,
+    dto: UpdateTacticalActionDto,
+  ): Promise<TacticalAction> {
     const action = await this.getAction(userId, id);
     if (dto.objectiveId !== undefined) await this.getObjective(userId, dto.objectiveId);
     Object.assign(action, {
@@ -147,19 +205,36 @@ export class StrategicPlanningService {
       ...(dto.description !== undefined ? { description: dto.description ?? null } : {}),
       ...(dto.dueDate !== undefined ? { dueDate: dto.dueDate ?? null } : {}),
       ...(dto.estimatedAmountCents !== undefined
-        ? { estimatedAmountCents: dto.estimatedAmountCents == null ? null : String(dto.estimatedAmountCents) }
+        ? {
+            estimatedAmountCents:
+              dto.estimatedAmountCents == null ? null : String(dto.estimatedAmountCents),
+          }
         : {}),
       ...(dto.status !== undefined ? { status: dto.status } : {}),
     });
     const updated = await this.actions.save(action);
-    await this.log(userId, 'tacticalAction', updated.id, 'UPDATE', updated.title, `Updated action ${updated.title}`);
+    await this.log(
+      userId,
+      'tacticalAction',
+      updated.id,
+      'UPDATE',
+      updated.title,
+      `Updated action ${updated.title}`,
+    );
     return updated;
   }
 
   async deleteAction(userId: string, id: string): Promise<void> {
     const action = await this.getAction(userId, id);
     await this.actions.remove(action);
-    await this.log(userId, 'tacticalAction', id, 'DELETE', action.title, `Deleted action ${action.title}`);
+    await this.log(
+      userId,
+      'tacticalAction',
+      id,
+      'DELETE',
+      action.title,
+      `Deleted action ${action.title}`,
+    );
   }
 
   private async getPlan(userId: string, id: string): Promise<StrategicPlan> {
