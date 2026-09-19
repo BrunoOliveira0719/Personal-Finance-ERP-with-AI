@@ -3,6 +3,7 @@ import { AppShell } from '@/components/layout/AppShell';
 import { DashboardPage } from '@/pages/DashboardPage';
 import { ComingSoonPage } from '@/pages/ComingSoonPage';
 import { AuthGate } from '@/components/auth/AuthGate';
+import { AccountsPage } from '@/pages/AccountsPage';
 
 export default function App() {
   return (
@@ -15,7 +16,7 @@ export default function App() {
             path="transactions"
             element={<ComingSoonPage title="Transactions" phase="Phase 3" />}
           />
-          <Route path="accounts" element={<ComingSoonPage title="Accounts" phase="Phase 3" />} />
+          <Route path="accounts" element={<AccountsPage />} />
           <Route
             path="categories"
             element={<ComingSoonPage title="Categories" phase="Phase 4" />}
