@@ -10,6 +10,7 @@ const NAV_ITEMS = [
   { to: '/budgets', label: 'Budgets' },
   { to: '/investments', label: 'Investments' },
   { to: '/goals', label: 'Goals' },
+  { to: '/strategic-planning', label: 'Strategic plan' },
   { to: '/reports', label: 'Reports' },
   { to: '/settings', label: 'Settings' },
 ];

@@ -10,6 +10,7 @@ import { PlanningPage } from '@/pages/PlanningPage';
 import { InvestmentsPage } from '@/pages/InvestmentsPage';
 import { SettingsPage } from '@/pages/SettingsPage';
 import { HistoryPage } from '@/pages/HistoryPage';
+import { StrategicPlanningPage } from '@/pages/StrategicPlanningPage';
 
 export default function App() {
   return (
@@ -25,6 +26,7 @@ export default function App() {
           <Route path="budgets" element={<PlanningPage mode="budgets" />} />
           <Route path="investments" element={<InvestmentsPage />} />
           <Route path="goals" element={<PlanningPage mode="goals" />} />
+          <Route path="strategic-planning" element={<StrategicPlanningPage />} />
           <Route path="reports" element={<ReportsPage />} />
           <Route path="settings" element={<SettingsPage />} />
         </Route>

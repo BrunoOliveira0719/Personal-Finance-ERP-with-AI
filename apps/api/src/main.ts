@@ -44,6 +44,7 @@ async function bootstrap() {
     .addTag('dashboard', 'Financial dashboard KPIs')
     .addTag('budgets', 'Monthly budgets')
     .addTag('financial-goals', 'Financial goals')
+    .addTag('strategic-planning', 'Strategic plans, objectives and tactical actions')
     .addTag('investments', 'Investment positions')
     .addCookieAuth('finance_session', { type: 'apiKey', in: 'cookie' })
     .addServer(`http://localhost:${config.apiPort}`, 'Local development')
