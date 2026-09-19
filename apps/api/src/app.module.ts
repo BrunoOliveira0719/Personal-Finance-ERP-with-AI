@@ -11,6 +11,11 @@ import { AccountsModule } from './modules/accounts/accounts.module';
 import { TransactionsModule } from './modules/transactions/transactions.module';
 import { CategoriesModule } from './modules/categories/categories.module';
 import { CostCentersModule } from './modules/cost-centers/cost-centers.module';
+import { ReportsModule } from './modules/reports/reports.module';
+import { DashboardModule } from './modules/dashboard/dashboard.module';
+import { BudgetsModule } from './modules/budgets/budgets.module';
+import { FinancialGoalsModule } from './modules/financial-goals/financial-goals.module';
+import { InvestmentsModule } from './modules/investments/investments.module';
 
 @Module({
   imports: [
@@ -30,6 +35,11 @@ import { CostCentersModule } from './modules/cost-centers/cost-centers.module';
     TransactionsModule,
     CategoriesModule,
     CostCentersModule,
+    ReportsModule,
+    DashboardModule,
+    BudgetsModule,
+    FinancialGoalsModule,
+    InvestmentsModule,
     // Domain modules (auth, accounts, transactions, ...) are registered
     // here incrementally as each implementation phase lands.
   ],
