@@ -4,6 +4,7 @@ import { DashboardPage } from '@/pages/DashboardPage';
 import { ComingSoonPage } from '@/pages/ComingSoonPage';
 import { AuthGate } from '@/components/auth/AuthGate';
 import { AccountsPage } from '@/pages/AccountsPage';
+import { TransactionsPage } from '@/pages/TransactionsPage';
 
 export default function App() {
   return (
@@ -14,7 +15,7 @@ export default function App() {
           <Route path="dashboard" element={<DashboardPage />} />
           <Route
             path="transactions"
-            element={<ComingSoonPage title="Transactions" phase="Phase 3" />}
+            element={<TransactionsPage />}
           />
           <Route path="accounts" element={<AccountsPage />} />
           <Route
