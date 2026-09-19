@@ -3,9 +3,16 @@ import { AccountsService } from './accounts.service';
 import { Account, AccountType } from './entities/account.entity';
 
 describe('AccountsService', () => {
+  const activityLogs = {
+    log: jest.fn().mockResolvedValue(undefined),
+  };
+
   it('lists only accounts owned by the authenticated user', async () => {
     const find = jest.fn().mockResolvedValue([]);
-    const service = new AccountsService({ find } as unknown as Repository<Account>);
+    const service = new AccountsService(
+      { find } as unknown as Repository<Account>,
+      activityLogs as any,
+    );
 
     await service.listForUser('user-1');
 
@@ -18,7 +25,10 @@ describe('AccountsService', () => {
   it('stores account balances as integer cents', async () => {
     const save = jest.fn().mockImplementation(async (account: Account) => account);
     const create = jest.fn().mockImplementation((account: Account) => account);
-    const service = new AccountsService({ create, save } as unknown as Repository<Account>);
+    const service = new AccountsService(
+      { create, save } as unknown as Repository<Account>,
+      activityLogs as any,
+    );
 
     await service.createForUser('user-1', {
       name: 'Checking',
@@ -39,7 +49,10 @@ describe('AccountsService', () => {
     const account = { id: 'account-1', userId: 'user-1', name: 'Old', type: AccountType.CHECKING };
     const findOne = jest.fn().mockResolvedValue(account);
     const save = jest.fn().mockImplementation(async (entity) => entity);
-    const service = new AccountsService({ findOne, save } as unknown as Repository<Account>);
+    const service = new AccountsService(
+      { findOne, save } as unknown as Repository<Account>,
+      activityLogs as any,
+    );
 
     await service.updateForUser('user-1', 'account-1', { name: 'New', type: AccountType.SAVINGS });
 
@@ -50,13 +63,18 @@ describe('AccountsService', () => {
   });
 
   it('deletes only owned accounts', async () => {
-    const findOne = jest.fn().mockResolvedValue({ id: 'account-1', userId: 'user-1' });
+    const findOne = jest
+      .fn()
+      .mockResolvedValue({ id: 'account-1', userId: 'user-1', name: 'My account' });
     const remove = jest.fn().mockResolvedValue(undefined);
-    const service = new AccountsService({ findOne, remove } as unknown as Repository<Account>);
+    const service = new AccountsService(
+      { findOne, remove } as unknown as Repository<Account>,
+      activityLogs as any,
+    );
 
     await service.deleteForUser('user-1', 'account-1');
 
     expect(findOne).toHaveBeenCalledWith({ where: { id: 'account-1', userId: 'user-1' } });
-    expect(remove).toHaveBeenCalledWith({ id: 'account-1', userId: 'user-1' });
+    expect(remove).toHaveBeenCalledWith({ id: 'account-1', userId: 'user-1', name: 'My account' });
   });
 });

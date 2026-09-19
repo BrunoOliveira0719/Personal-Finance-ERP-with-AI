@@ -20,13 +20,15 @@ export function AppShell() {
   if (!user) return null;
 
   return (
-    <div className="flex min-h-screen">
-      <aside className="flex w-56 shrink-0 flex-col border-r border-line bg-panel px-4 py-6">
-        <div className="mb-8 px-2">
-          <p className="text-sm font-medium text-muted">Personal</p>
-          <p className="text-lg font-semibold text-ink">Finance ERP</p>
+    <div className="flex min-h-screen flex-col md:flex-row">
+      <aside className="border-b border-line bg-panel px-3 py-4 md:w-64 md:shrink-0 md:border-b-0 md:border-r md:px-4 md:py-6">
+        <div className="mb-4 flex items-center justify-between gap-3 px-2 md:mb-8">
+          <div>
+            <p className="text-sm font-medium text-muted">Personal</p>
+            <p className="text-lg font-semibold text-ink">Finance ERP</p>
+          </div>
         </div>
-        <nav className="flex flex-col gap-1">
+        <nav className="flex flex-wrap gap-2 md:flex-col md:gap-1">
           {NAV_ITEMS.map((item) => (
             <NavLink
               key={item.to}
@@ -44,7 +46,7 @@ export function AppShell() {
             </NavLink>
           ))}
         </nav>
-        <div className="mt-auto border-t border-line pt-5">
+        <div className="mt-4 border-t border-line pt-4 md:mt-auto md:pt-5">
           <div className="flex items-center gap-3 px-2">
             {user.avatarUrl ? (
               <img className="h-8 w-8 rounded-full" src={user.avatarUrl} alt="" />
@@ -67,7 +69,7 @@ export function AppShell() {
           </button>
         </div>
       </aside>
-      <main className="flex-1 px-8 py-8">
+      <main className="flex-1 px-4 py-5 sm:px-6 lg:px-8 lg:py-8">
         <Outlet />
       </main>
     </div>

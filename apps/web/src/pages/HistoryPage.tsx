@@ -1,26 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { apiClient } from '@/lib/api-client';
-
-interface Account {
-  id: string;
-  name: string;
-  type: string;
-}
-interface Transaction {
-  id: string;
-  accountId: string;
-  type: string;
-  amountCents: string;
-  description: string | null;
-  transactionDate: string;
-  createdAt: string;
-  status: string;
-}
-
-const money = (value: string | number) =>
-  new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(
-    Number(value) / 100,
-  );
+import type { ActivityLogItem } from '@/types/activity';
 
 const formatDateTime = (value: string) => {
   const date = new Date(value);
@@ -33,66 +13,49 @@ const formatDateTime = (value: string) => {
 };
 
 export function HistoryPage() {
-  const accounts = useQuery({
-    queryKey: ['accounts'],
-    queryFn: () => apiClient.get<Account[]>('/accounts'),
+  const activity = useQuery({
+    queryKey: ['activity-logs'],
+    queryFn: () => apiClient.get<ActivityLogItem[]>('/activity-logs'),
   });
-
-  const transactions = useQuery({
-    queryKey: ['transactions'],
-    queryFn: () => apiClient.get<Transaction[]>('/transactions'),
-  });
-
-  const rows = [...(transactions.data ?? [])]
-    .sort(
-      (a, b) =>
-        new Date(b.createdAt ?? b.transactionDate).getTime() -
-        new Date(a.createdAt ?? a.transactionDate).getTime(),
-    )
-    .map((item) => ({
-      ...item,
-      accountName:
-        accounts.data?.find((account) => account.id === item.accountId)?.name ?? 'Conta removida',
-    }));
 
   return (
     <div>
       <h1 className="text-2xl font-semibold text-ink">General history</h1>
       <p className="mt-1 text-sm text-muted">
-        View all operations across the financial structure with date and time.
+        Complete account of every write, edit and delete across the financial system.
       </p>
 
-      <div className="mt-8 overflow-hidden rounded-lg border border-line bg-panel">
-        <table className="w-full text-left text-sm">
+      <div className="mt-8 overflow-x-auto rounded-lg border border-line bg-panel">
+        <table className="min-w-full text-left text-sm">
           <thead className="border-b border-line text-muted">
             <tr>
-              <th className="px-5 py-3">Date and time</th>
-              <th className="px-5 py-3">Account</th>
-              <th className="px-5 py-3">Type</th>
-              <th className="px-5 py-3">Description</th>
-              <th className="px-5 py-3">Value</th>
-              <th className="px-5 py-3">Status</th>
+              <th className="px-3 py-3 sm:px-5">Date and time</th>
+              <th className="px-3 py-3 sm:px-5">Module</th>
+              <th className="px-3 py-3 sm:px-5">Action</th>
+              <th className="px-3 py-3 sm:px-5">Name</th>
+              <th className="px-3 py-3 sm:px-5">Details</th>
             </tr>
           </thead>
           <tbody>
-            {rows.map((row) => (
-              <tr key={row.id} className="border-b border-line last:border-0">
-                <td className="px-5 py-3 text-muted">
-                  {formatDateTime(row.createdAt ?? row.transactionDate)}
+            {activity.data?.map((row) => (
+              <tr key={row.id} className="border-b border-line last:border-0 align-top">
+                <td className="px-3 py-3 text-muted sm:px-5">{formatDateTime(row.createdAt)}</td>
+                <td className="px-3 py-3 text-ink sm:px-5">{row.module}</td>
+                <td className="px-3 py-3 sm:px-5">
+                  <span className="rounded-full bg-accent/10 px-2 py-1 text-xs font-medium text-accent">
+                    {row.action}
+                  </span>
                 </td>
-                <td className="px-5 py-3 text-ink">{row.accountName}</td>
-                <td className="px-5 py-3 text-muted">{row.type}</td>
-                <td className="px-5 py-3 text-ink">{row.description ?? '—'}</td>
-                <td className="px-5 py-3 text-ink">{money(row.amountCents)}</td>
-                <td className="px-5 py-3 text-muted">{row.status}</td>
+                <td className="px-3 py-3 text-ink sm:px-5">{row.label}</td>
+                <td className="px-3 py-3 text-muted sm:px-5">{row.details ?? '—'}</td>
               </tr>
             ))}
           </tbody>
         </table>
 
-        {transactions.isLoading && <p className="p-5 text-sm text-muted">Loading history...</p>}
-        {!transactions.isLoading && rows.length === 0 && (
-          <p className="p-5 text-sm text-muted">No movements recorded yet.</p>
+        {activity.isLoading && <p className="p-5 text-sm text-muted">Loading history...</p>}
+        {!activity.isLoading && activity.data?.length === 0 && (
+          <p className="p-5 text-sm text-muted">No activity recorded yet.</p>
         )}
       </div>
     </div>

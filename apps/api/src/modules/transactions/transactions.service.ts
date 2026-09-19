@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Account } from '../accounts/entities/account.entity';
+import { ActivityLogsService } from '../activity-logs/activity-logs.service';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
 import { Transaction, TransactionStatus } from './entities/transaction.entity';
@@ -13,6 +14,7 @@ export class TransactionsService {
     private readonly transactions: Repository<Transaction>,
     @InjectRepository(Account)
     private readonly accounts: Repository<Account>,
+    private readonly activityLogs: ActivityLogsService,
   ) {}
 
   listForUser(userId: string, accountId?: string): Promise<Transaction[]> {
@@ -41,7 +43,17 @@ export class TransactionsService {
       transferPairId: dto.transferPairId ?? null,
       amountCents: String(dto.amountCents),
     });
-    return this.transactions.save(transaction);
+    const saved = await this.transactions.save(transaction);
+    await this.activityLogs.log({
+      userId,
+      module: 'transactions',
+      entity: 'transaction',
+      entityId: saved.id,
+      action: 'CREATE',
+      label: saved.description ?? saved.type,
+      details: `${saved.type} transaction registered`,
+    });
+    return saved;
   }
 
   async updateForUser(
@@ -56,6 +68,7 @@ export class TransactionsService {
       await this.validateAccountAccess(userId, dto.accountId);
     }
 
+    const previousLabel = transaction.description ?? transaction.type;
     Object.assign(transaction, {
       ...(dto.accountId !== undefined ? { accountId: dto.accountId } : {}),
       ...(dto.categoryId !== undefined ? { categoryId: dto.categoryId ?? null } : {}),
@@ -68,12 +81,31 @@ export class TransactionsService {
       ...(dto.transferPairId !== undefined ? { transferPairId: dto.transferPairId ?? null } : {}),
     });
 
-    return this.transactions.save(transaction);
+    const updated = await this.transactions.save(transaction);
+    await this.activityLogs.log({
+      userId,
+      module: 'transactions',
+      entity: 'transaction',
+      entityId: updated.id,
+      action: 'UPDATE',
+      label: updated.description ?? updated.type,
+      details: `Updated transaction ${previousLabel}`,
+    });
+    return updated;
   }
 
   async deleteForUser(userId: string, transactionId: string): Promise<void> {
     const transaction = await this.transactions.findOne({ where: { id: transactionId, userId } });
     if (!transaction) throw new NotFoundException('Transaction not found');
     await this.transactions.remove(transaction);
+    await this.activityLogs.log({
+      userId,
+      module: 'transactions',
+      entity: 'transaction',
+      entityId: transactionId,
+      action: 'DELETE',
+      label: transaction.description ?? transaction.type,
+      details: `Deleted transaction ${transaction.description ?? transaction.type}`,
+    });
   }
 }

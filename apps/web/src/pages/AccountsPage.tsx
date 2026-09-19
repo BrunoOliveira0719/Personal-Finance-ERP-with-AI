@@ -42,6 +42,7 @@ export function AccountsPage() {
       setName('');
       setBalance('0');
       void client.invalidateQueries({ queryKey: ['accounts'] });
+      void client.invalidateQueries({ queryKey: ['activity-logs'] });
     },
   });
 
@@ -56,6 +57,7 @@ export function AccountsPage() {
     onSuccess: () => {
       setEditingId(null);
       void client.invalidateQueries({ queryKey: ['accounts'] });
+      void client.invalidateQueries({ queryKey: ['activity-logs'] });
     },
   });
 
@@ -63,6 +65,7 @@ export function AccountsPage() {
     mutationFn: (id: string) => apiClient.delete(`/accounts/${id}`),
     onSuccess: () => {
       void client.invalidateQueries({ queryKey: ['accounts'] });
+      void client.invalidateQueries({ queryKey: ['activity-logs'] });
     },
   });
 
