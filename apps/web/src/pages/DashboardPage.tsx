@@ -8,7 +8,8 @@ export function DashboardPage() {
     queryFn: healthService.check,
   });
   const summary = useQuery({ queryKey: ['dashboard'], queryFn: dashboardService.summary });
-  const formatCents = (cents: number) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(cents / 100);
+  const formatCents = (cents: number) =>
+    new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(cents / 100);
 
   return (
     <div>
