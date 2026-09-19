@@ -9,6 +9,8 @@ import { AuthModule } from './modules/auth/auth.module';
 import { SessionAuthGuard } from './modules/auth/session-auth.guard';
 import { AccountsModule } from './modules/accounts/accounts.module';
 import { TransactionsModule } from './modules/transactions/transactions.module';
+import { CategoriesModule } from './modules/categories/categories.module';
+import { CostCentersModule } from './modules/cost-centers/cost-centers.module';
 
 @Module({
   imports: [
@@ -26,6 +28,8 @@ import { TransactionsModule } from './modules/transactions/transactions.module';
     AuthModule,
     AccountsModule,
     TransactionsModule,
+    CategoriesModule,
+    CostCentersModule,
     // Domain modules (auth, accounts, transactions, ...) are registered
     // here incrementally as each implementation phase lands.
   ],
