@@ -18,12 +18,12 @@ a live connectivity check to the API.
 
 ## Stack
 
-| Layer     | Tech |
-|-----------|------|
-| API       | NestJS, TypeScript, TypeORM, PostgreSQL, REST |
-| Web       | React, TypeScript, Tailwind CSS, Vite, React Query |
-| Auth      | Google OAuth 2.0 (Sign in with Google), server-side session |
-| Infra     | Docker, Docker Compose |
+| Layer | Tech                                                        |
+| ----- | ----------------------------------------------------------- |
+| API   | NestJS, TypeScript, TypeORM, PostgreSQL, REST               |
+| Web   | React, TypeScript, Tailwind CSS, Vite, React Query          |
+| Auth  | Google OAuth 2.0 (Sign in with Google), server-side session |
+| Infra | Docker, Docker Compose                                      |
 
 ## Project structure
 
@@ -52,13 +52,16 @@ personal-finance-erp/
 ## Local setup
 
 ### Prerequisites
+
 - Node.js 20+
 - Docker + Docker Compose (recommended), or a local PostgreSQL 16 instance
 
 ### 1. Environment variables
+
 ```bash
 cp .env.example .env
 ```
+
 Fill in `SESSION_SECRET` (`openssl rand -base64 48`) and the Google OAuth
 credentials — see [Google OAuth setup](#google-oauth-setup) below. Every
 variable the app reads is documented in `.env.example` and validated at
@@ -66,22 +69,28 @@ startup (`apps/api/src/config/env.validation.ts`); the app refuses to boot
 if one is missing or malformed.
 
 ### 2. Run with Docker Compose
+
 ```bash
 docker compose up
 ```
+
 This starts PostgreSQL, the API (`http://localhost:3000`), and the web app
 (`http://localhost:5173`).
 
 ### 3. Run without Docker
+
 ```bash
 npm install
 npm run dev:api    # http://localhost:3000
 npm run dev:web    # http://localhost:5173
 ```
+
 (Requires a PostgreSQL instance matching your `.env` values.)
 
 ### 4. Database migrations
+
 Schema changes are never auto-synced (see `docs/adr/0002-typeorm-migrations.md`).
+
 ```bash
 npm run migration:run --workspace=apps/api
 ```
@@ -97,6 +106,7 @@ npm run migration:run --workspace=apps/api
 (The auth module itself lands in Phase 2 — see Roadmap.)
 
 ## Running tests
+
 ```bash
 npm run test:api --workspace=apps/api        # unit tests
 npm run test:e2e --workspace=apps/api         # e2e tests (boots the app)
@@ -134,6 +144,6 @@ reports, dashboard summaries, budgets, financial goals, and investments. See
 | 4 | Categories + cost centers |
 | 5 | DRE, cash flow, balance sheet reports |
 | 6 | Dashboard + KPIs + charts |
-| 1–8 | Foundation through investments *(implemented)* |
-| 9 | Testing hardening, security review, documentation *(current)* |
+| 1–8 | Foundation through investments _(implemented)_ |
+| 9 | Testing hardening, security review, documentation _(current)_ |
 | 9 | Testing hardening, security review, documentation |
