@@ -9,6 +9,7 @@ import { ReportsPage } from '@/pages/ReportsPage';
 import { PlanningPage } from '@/pages/PlanningPage';
 import { InvestmentsPage } from '@/pages/InvestmentsPage';
 import { SettingsPage } from '@/pages/SettingsPage';
+import { HistoryPage } from '@/pages/HistoryPage';
 
 export default function App() {
   return (
@@ -17,24 +18,13 @@ export default function App() {
         <Route element={<AppShell />}>
           <Route index element={<DashboardPage />} />
           <Route path="dashboard" element={<DashboardPage />} />
-          <Route
-            path="transactions"
-            element={<TransactionsPage />}
-          />
+          <Route path="transactions" element={<TransactionsPage />} />
           <Route path="accounts" element={<AccountsPage />} />
-          <Route
-            path="categories"
-            element={<CategoriesPage />}
-          />
+          <Route path="categories" element={<CategoriesPage />} />
+          <Route path="history" element={<HistoryPage />} />
           <Route path="budgets" element={<PlanningPage mode="budgets" />} />
-          <Route
-            path="investments"
-            element={<InvestmentsPage />}
-          />
-          <Route
-            path="goals"
-            element={<PlanningPage mode="goals" />}
-          />
+          <Route path="investments" element={<InvestmentsPage />} />
+          <Route path="goals" element={<PlanningPage mode="goals" />} />
           <Route path="reports" element={<ReportsPage />} />
           <Route path="settings" element={<SettingsPage />} />
         </Route>

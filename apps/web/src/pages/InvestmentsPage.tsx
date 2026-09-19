@@ -1,5 +1,65 @@
 import { useQuery } from '@tanstack/react-query';
 import { apiClient } from '@/lib/api-client';
-interface Investment { id: string; ticker: string; type: string; quantity: string; investedAmountCents: string; currentValueCents: string; }
-const money = (value: string) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(value) / 100);
-export function InvestmentsPage() { const investments = useQuery({ queryKey: ['investments'], queryFn: () => apiClient.get<Investment[]>('/investments') }); const invested = investments.data?.reduce((sum, item) => sum + Number(item.investedAmountCents), 0) ?? 0; const current = investments.data?.reduce((sum, item) => sum + Number(item.currentValueCents), 0) ?? 0; return <div><h1 className="text-2xl font-semibold text-ink">Investments</h1><p className="mt-1 text-sm text-muted">Track invested capital and current portfolio value.</p><div className="mt-8 grid gap-4 sm:grid-cols-2"><div className="rounded-lg border border-line bg-panel p-5"><p className="text-sm text-muted">Invested capital</p><p className="mt-2 text-xl font-semibold text-ink">{money(String(invested))}</p></div><div className="rounded-lg border border-line bg-panel p-5"><p className="text-sm text-muted">Current value</p><p className="mt-2 text-xl font-semibold text-ink">{money(String(current))}</p></div></div><div className="mt-6 overflow-hidden rounded-lg border border-line bg-panel"><table className="w-full text-left text-sm"><thead className="border-b border-line text-muted"><tr><th className="px-5 py-3">Ticker</th><th className="px-5 py-3">Type</th><th className="px-5 py-3">Quantity</th><th className="px-5 py-3">Value</th></tr></thead><tbody>{investments.data?.map((item) => <tr key={item.id} className="border-b border-line last:border-0"><td className="px-5 py-3 font-medium text-ink">{item.ticker}</td><td className="px-5 py-3 text-muted">{item.type}</td><td className="px-5 py-3 text-muted">{item.quantity}</td><td className="px-5 py-3 text-ink">{money(item.currentValueCents)}</td></tr>)}</tbody></table>{investments.data?.length === 0 && <p className="p-5 text-sm text-muted">No investments yet.</p>}</div></div>; }
+interface Investment {
+  id: string;
+  ticker: string;
+  type: string;
+  quantity: string;
+  investedAmountCents: string;
+  currentValueCents: string;
+}
+const money = (value: string) =>
+  new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(
+    Number(value) / 100,
+  );
+export function InvestmentsPage() {
+  const investments = useQuery({
+    queryKey: ['investments'],
+    queryFn: () => apiClient.get<Investment[]>('/investments'),
+  });
+  const invested =
+    investments.data?.reduce((sum, item) => sum + Number(item.investedAmountCents), 0) ?? 0;
+  const current =
+    investments.data?.reduce((sum, item) => sum + Number(item.currentValueCents), 0) ?? 0;
+  return (
+    <div>
+      <h1 className="text-2xl font-semibold text-ink">Investments</h1>
+      <p className="mt-1 text-sm text-muted">Track invested capital and current portfolio value.</p>
+      <div className="mt-8 grid gap-4 sm:grid-cols-2">
+        <div className="rounded-lg border border-line bg-panel p-5">
+          <p className="text-sm text-muted">Invested capital</p>
+          <p className="mt-2 text-xl font-semibold text-ink">{money(String(invested))}</p>
+        </div>
+        <div className="rounded-lg border border-line bg-panel p-5">
+          <p className="text-sm text-muted">Current value</p>
+          <p className="mt-2 text-xl font-semibold text-ink">{money(String(current))}</p>
+        </div>
+      </div>
+      <div className="mt-6 overflow-hidden rounded-lg border border-line bg-panel">
+        <table className="w-full text-left text-sm">
+          <thead className="border-b border-line text-muted">
+            <tr>
+              <th className="px-5 py-3">Ticker</th>
+              <th className="px-5 py-3">Type</th>
+              <th className="px-5 py-3">Quantity</th>
+              <th className="px-5 py-3">Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            {investments.data?.map((item) => (
+              <tr key={item.id} className="border-b border-line last:border-0">
+                <td className="px-5 py-3 font-medium text-ink">{item.ticker}</td>
+                <td className="px-5 py-3 text-muted">{item.type}</td>
+                <td className="px-5 py-3 text-muted">{item.quantity}</td>
+                <td className="px-5 py-3 text-ink">{money(item.currentValueCents)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        {investments.data?.length === 0 && (
+          <p className="p-5 text-sm text-muted">No investments yet.</p>
+        )}
+      </div>
+    </div>
+  );
+}

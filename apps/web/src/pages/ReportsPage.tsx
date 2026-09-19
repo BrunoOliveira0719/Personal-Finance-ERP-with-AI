@@ -1,6 +1,76 @@
 import { useQuery } from '@tanstack/react-query';
 import { apiClient } from '@/lib/api-client';
-interface Summary { incomeCents: number; expenseCents: number; netCents: number; transactionCount: number; }
-interface Balance { assets: number; liabilities: number; }
-const money = (value: number) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value / 100);
-export function ReportsPage() { const dre = useQuery({ queryKey: ['report', 'dre'], queryFn: () => apiClient.get<Summary>('/reports/dre') }); const cash = useQuery({ queryKey: ['report', 'cash'], queryFn: () => apiClient.get<Summary>('/reports/cash-flow') }); const balance = useQuery({ queryKey: ['report', 'balance'], queryFn: () => apiClient.get<Balance>('/reports/balance-sheet') }); return <div><h1 className="text-2xl font-semibold text-ink">Reports</h1><p className="mt-1 text-sm text-muted">Corporate-style views of your personal finances.</p><div className="mt-8 grid gap-6 lg:grid-cols-3">{[['DRE', dre.data && [['Income', dre.data.incomeCents], ['Expenses', dre.data.expenseCents], ['Net result', dre.data.netCents]]], ['Cash flow', cash.data && [['Inflows', cash.data.incomeCents], ['Outflows', cash.data.expenseCents], ['Transactions', cash.data.transactionCount]]], ['Balance sheet', balance.data && [['Assets', balance.data.assets], ['Liabilities', balance.data.liabilities], ['Net worth', balance.data.assets - balance.data.liabilities]]]].map(([title, rows]) => <section key={title as string} className="rounded-lg border border-line bg-panel p-5"><h2 className="font-medium text-ink">{title as string}</h2><dl className="mt-4 space-y-4">{(rows as [string, number][] | undefined)?.map(([label, value]) => <div key={label} className="flex justify-between text-sm"><dt className="text-muted">{label}</dt><dd className="font-medium text-ink">{typeof value === 'number' && label !== 'Transactions' ? money(value) : value}</dd></div>)}</dl></section>)}</div></div>; }
+interface Summary {
+  incomeCents: number;
+  expenseCents: number;
+  netCents: number;
+  transactionCount: number;
+}
+interface Balance {
+  assets: number;
+  liabilities: number;
+}
+const money = (value: number) =>
+  new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value / 100);
+export function ReportsPage() {
+  const dre = useQuery({
+    queryKey: ['report', 'dre'],
+    queryFn: () => apiClient.get<Summary>('/reports/dre'),
+  });
+  const cash = useQuery({
+    queryKey: ['report', 'cash'],
+    queryFn: () => apiClient.get<Summary>('/reports/cash-flow'),
+  });
+  const balance = useQuery({
+    queryKey: ['report', 'balance'],
+    queryFn: () => apiClient.get<Balance>('/reports/balance-sheet'),
+  });
+  return (
+    <div>
+      <h1 className="text-2xl font-semibold text-ink">Reports</h1>
+      <p className="mt-1 text-sm text-muted">Corporate-style views of your personal finances.</p>
+      <div className="mt-8 grid gap-6 lg:grid-cols-3">
+        {[
+          [
+            'DRE',
+            dre.data && [
+              ['Income', dre.data.incomeCents],
+              ['Expenses', dre.data.expenseCents],
+              ['Net result', dre.data.netCents],
+            ],
+          ],
+          [
+            'Cash flow',
+            cash.data && [
+              ['Inflows', cash.data.incomeCents],
+              ['Outflows', cash.data.expenseCents],
+              ['Transactions', cash.data.transactionCount],
+            ],
+          ],
+          [
+            'Balance sheet',
+            balance.data && [
+              ['Assets', balance.data.assets],
+              ['Liabilities', balance.data.liabilities],
+              ['Net worth', balance.data.assets - balance.data.liabilities],
+            ],
+          ],
+        ].map(([title, rows]) => (
+          <section key={title as string} className="rounded-lg border border-line bg-panel p-5">
+            <h2 className="font-medium text-ink">{title as string}</h2>
+            <dl className="mt-4 space-y-4">
+              {(rows as [string, number][] | undefined)?.map(([label, value]) => (
+                <div key={label} className="flex justify-between text-sm">
+                  <dt className="text-muted">{label}</dt>
+                  <dd className="font-medium text-ink">
+                    {typeof value === 'number' && label !== 'Transactions' ? money(value) : value}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        ))}
+      </div>
+    </div>
+  );
+}
