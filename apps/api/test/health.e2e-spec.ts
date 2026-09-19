@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
-import request from 'supertest';
+import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
 
 describe('Health (e2e)', () => {
@@ -27,5 +27,9 @@ describe('Health (e2e)', () => {
         expect(res.body).toHaveProperty('status');
         expect(res.body).toHaveProperty('database');
       });
+  });
+
+  it('protects authenticated routes when no session cookie is present', () => {
+    return request(app.getHttpServer()).get('/auth/me').expect(401);
   });
 });

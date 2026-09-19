@@ -5,6 +5,8 @@ import { AppConfigModule } from './config/app-config.module';
 import { DatabaseModule } from './database/database.module';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { HealthModule } from './modules/health/health.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { SessionAuthGuard } from './modules/auth/session-auth.guard';
 
 @Module({
   imports: [
@@ -19,15 +21,14 @@ import { HealthModule } from './modules/health/health.module';
       },
     ]),
     HealthModule,
+    AuthModule,
     // Domain modules (auth, accounts, transactions, ...) are registered
     // here incrementally as each implementation phase lands.
   ],
   providers: [
     { provide: APP_FILTER, useClass: HttpExceptionFilter },
     { provide: APP_GUARD, useClass: ThrottlerGuard },
-    // A global SessionAuthGuard is added in Phase 2 (Authentication), so
-    // that every route is protected by default except those marked
-    // @Public(). Until then, no route requires authentication.
+    { provide: APP_GUARD, useClass: SessionAuthGuard },
   ],
 })
 export class AppModule {}
