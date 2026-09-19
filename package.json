@@ -1,0 +1,25 @@
+{
+  "name": "personal-finance-erp",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Personal Finance ERP - manage personal finances with corporate-style financial reporting (DRE, cash flow, balance sheet).",
+  "workspaces": [
+    "apps/api",
+    "apps/web"
+  ],
+  "scripts": {
+    "dev:api": "npm run start:dev --workspace=apps/api",
+    "dev:web": "npm run dev --workspace=apps/web",
+    "build:api": "npm run build --workspace=apps/api",
+    "build:web": "npm run build --workspace=apps/web",
+    "test:api": "npm run test --workspace=apps/api",
+    "lint:api": "npm run lint --workspace=apps/api",
+    "lint:web": "npm run lint --workspace=apps/web",
+    "migration:generate": "npm run migration:generate --workspace=apps/api",
+    "migration:run": "npm run migration:run --workspace=apps/api",
+    "migration:revert": "npm run migration:revert --workspace=apps/api"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
