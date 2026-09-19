@@ -134,6 +134,13 @@ See [`docs/adr/`](./docs/adr) for the reasoning behind key choices
 (currently: money representation, migrations-only schema policy). New
 decisions are added here as the project progresses.
 
+## Documentation
+
+- [Development guide](./docs/development.md)
+- [API and Swagger](./docs/api.md)
+- [Database and migrations](./docs/database.md)
+- [Frontend](./docs/frontend.md)
+
 ## Roadmap
 
 **Phases 1–8 — Core platform implemented.** The app includes Google OAuth,
