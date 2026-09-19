@@ -126,20 +126,14 @@ decisions are added here as the project progresses.
 
 ## Roadmap
 
-| Phase | Scope |
-|-------|-------|
-| 1 | Project foundation *(this phase)* |
-| 2 | Google OAuth authentication, sessions, sign-out |
+**Phases 1–8 — Core platform implemented.** The app includes Google OAuth,
+session-backed auth, accounts, transactions, categories, cost centers,
+reports, dashboard summaries, budgets, financial goals, and investments. See
+[Roadmap](#roadmap) below for the remaining hardening work.
 | 3 | Accounts + transactions |
 | 4 | Categories + cost centers |
 | 5 | DRE, cash flow, balance sheet reports |
 | 6 | Dashboard + KPIs + charts |
-| 7 | Budgets + financial goals |
-| 8 | Investments |
+| 1–8 | Foundation through investments *(implemented)* |
+| 9 | Testing hardening, security review, documentation *(current)* |
 | 9 | Testing hardening, security review, documentation |
-
-## API
-
-`GET /health` — public, returns API/DB connectivity status. Further
-endpoints (`/auth`, `/accounts`, `/transactions`, `/reports/*`, `/dashboard`,
-...) are added module by module per the roadmap above.
