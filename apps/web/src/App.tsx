@@ -1,7 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import { AppShell } from '@/components/layout/AppShell';
 import { DashboardPage } from '@/pages/DashboardPage';
-import { ComingSoonPage } from '@/pages/ComingSoonPage';
 import { AuthGate } from '@/components/auth/AuthGate';
 import { AccountsPage } from '@/pages/AccountsPage';
 import { TransactionsPage } from '@/pages/TransactionsPage';
