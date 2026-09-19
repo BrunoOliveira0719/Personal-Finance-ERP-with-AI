@@ -5,6 +5,7 @@ import { ComingSoonPage } from '@/pages/ComingSoonPage';
 import { AuthGate } from '@/components/auth/AuthGate';
 import { AccountsPage } from '@/pages/AccountsPage';
 import { TransactionsPage } from '@/pages/TransactionsPage';
+import { CategoriesPage } from '@/pages/CategoriesPage';
 
 export default function App() {
   return (
@@ -20,7 +21,7 @@ export default function App() {
           <Route path="accounts" element={<AccountsPage />} />
           <Route
             path="categories"
-            element={<ComingSoonPage title="Categories" phase="Phase 4" />}
+            element={<CategoriesPage />}
           />
           <Route path="budgets" element={<ComingSoonPage title="Budgets" phase="Phase 7" />} />
           <Route
