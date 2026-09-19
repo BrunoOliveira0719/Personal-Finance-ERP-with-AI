@@ -143,14 +143,21 @@ decisions are added here as the project progresses.
 
 ## Roadmap
 
-**Phases 1–8 — Core platform implemented.** The app includes Google OAuth,
-session-backed auth, accounts, transactions, categories, cost centers,
-reports, dashboard summaries, budgets, financial goals, and investments. See
-[Roadmap](#roadmap) below for the remaining hardening work.
-| 3 | Accounts + transactions |
-| 4 | Categories + cost centers |
-| 5 | DRE, cash flow, balance sheet reports |
-| 6 | Dashboard + KPIs + charts |
-| 1–8 | Foundation through investments _(implemented)_ |
-| 9 | Testing hardening, security review, documentation _(current)_ |
-| 9 | Testing hardening, security review, documentation |
+**Current state — foundation through planning.** The app includes Google
+OAuth/session authentication, accounts, transactions, categories, cost
+centers, reports, dashboard summaries, budgets, financial goals, investments,
+activity history, and strategic/tactical planning. Phase 9 hardening remains
+the current focus: testing, security review, documentation, and operational
+polish.
+
+| Phase | Scope | Status |
+| --- | --- | --- |
+| 1 | Project foundation | Implemented |
+| 2 | Google OAuth and session authentication | Implemented |
+| 3 | Accounts and transactions | Implemented |
+| 4 | Categories and cost centers | Implemented |
+| 5 | DRE, cash flow, and balance sheet reports | Implemented |
+| 6 | Dashboard and financial KPIs | Implemented |
+| 7 | Budgets, goals, and strategic/tactical planning | Implemented |
+| 8 | Investments | Foundation implemented |
+| 9 | Testing hardening, security review, documentation, and polish | Current |
