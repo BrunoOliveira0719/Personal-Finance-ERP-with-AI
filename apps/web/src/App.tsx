@@ -8,6 +8,8 @@ import { TransactionsPage } from '@/pages/TransactionsPage';
 import { CategoriesPage } from '@/pages/CategoriesPage';
 import { ReportsPage } from '@/pages/ReportsPage';
 import { PlanningPage } from '@/pages/PlanningPage';
+import { InvestmentsPage } from '@/pages/InvestmentsPage';
+import { SettingsPage } from '@/pages/SettingsPage';
 
 export default function App() {
   return (
@@ -28,14 +30,14 @@ export default function App() {
           <Route path="budgets" element={<PlanningPage mode="budgets" />} />
           <Route
             path="investments"
-            element={<ComingSoonPage title="Investments" phase="Phase 8" />}
+            element={<InvestmentsPage />}
           />
           <Route
             path="goals"
             element={<PlanningPage mode="goals" />}
           />
           <Route path="reports" element={<ReportsPage />} />
-          <Route path="settings" element={<ComingSoonPage title="Settings" phase="Phase 2" />} />
+          <Route path="settings" element={<SettingsPage />} />
         </Route>
       </Routes>
     </AuthGate>
